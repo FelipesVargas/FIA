@@ -1,26 +1,37 @@
 ## Exercicio Jarra
 ## Autor: Felipe Souza Vargas
+## Exercício: Como obter 2 litros de água no jarro 4.
+## Saída: Lista de estados necessários para se obter 2 litros no jarro de 4.
 
-abertos=[]
-visitados=[]
-pai={}
 
-def enche_a(x):  
+
+abertos=[]           #Lista de controle de qual nó já foi aberto
+visitados=[]         #Lista de controle de qual nó já foi visitado
+pai={}               #Dicionario de identificação dos ancestrais do nós, seguindo a lógica de pai[nó]=PAI
+
+#Função responsável por encher a jarra de 3 litros
+def enche_a(x):    
     x[0]=3
     return x
 
+#Função responsável por encher a jarra de 4 litros
 def enche_b(x):
     x[1]=4
     return x
 
+#Função responsável por esvaziar a jarra de 3 litros
 def esvazia_a(x):
     x[0]=0
     return x
 
+#Função responsável por esvaziar a jarra de 4 litros
 def esvazia_b(x):
     x[1]=0
     return x
 
+
+
+#Função responsável por tranferir o volume de água na jarra de 3 litros para a de 4 litros
 def tranfere_a_b(x):
     a=x[0]
     b=x[1]
@@ -35,7 +46,7 @@ def tranfere_a_b(x):
         x[1]=b
     return x
 
-
+#Função responsável por tranferir o volume de água na jarra de 4 litros para a de 3 litros
 def tranfere_b_a(x):
     a=x[0]
     b=x[1]
@@ -50,6 +61,8 @@ def tranfere_b_a(x):
         x[1]=b
     return x
 
+
+#Execução da busca utilizando o algoritmo DFS recursivo
 def DFS(u):
     if(u == [0,2]):
         return 1
@@ -59,6 +72,7 @@ def DFS(u):
     abertos.append(u)
     adjacentes=[]
     
+#Criação dos 6 possíveis estados à partir do estado atual    
     x = enche_a(u[:])
     adjacentes.append(x[:])
  
@@ -77,7 +91,7 @@ def DFS(u):
     x =tranfere_b_a(u[:])
     adjacentes.append(x[:])
 
-
+#Contorle para caso o estado desejado tenha sido gerado ele para a recursão
     if([0,2] in adjacentes):
         pai[(0,2)]=u[:]
         return 1
@@ -91,20 +105,22 @@ def DFS(u):
             
     abertos.remove(u)
     visitados.append(u)
-    
+
+
 jarras = [0, 0]
 pai={tuple(jarras):None}
 
 DFS(jarras)
 
-auxiliar=[]
+saida=[]
 filho=(0,2)
 
-
+#Montagem da saida a partir da lista de nós pais
 while(pai[tuple(filho)] != None):
-    auxiliar.append(tuple(filho))
+    saida.append(tuple(filho))
     filho=pai[tuple(filho)]
 
-auxiliar.append(tuple(jarras))
+saida.append(tuple(jarras))
 
-print(auxiliar[::-1])
+#Apresentação da lista sequencial de estados para obter 2 litros no jarro 2
+print(saida[::-1])
