@@ -14,7 +14,7 @@ def enche_a(x):
     x[0]=3
     return x
 
-#Função responsável por encher a jarra de 4 litros
+#Função responsável por encher a jarra de 4 litros 
 def enche_b(x):
     x[1]=4
     return x
