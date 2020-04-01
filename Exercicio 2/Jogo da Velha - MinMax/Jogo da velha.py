@@ -18,22 +18,39 @@ import math
 maquina=""
 pesos=(2,1,2,1,3,1,2,1,2)
 #      1  2  3  4  5  6  7  8  9
-jogo=["","","","","","X","","",""]
+jogo=["","","","","","","","",""]
+
 
 def valor_jogada(estado):
     soma=0
-    for i in range(len(estado)):
-        if(estado[i] == "X"):
-            soma+=pesos[i]
-        elif(estado[i] == "O"):
-            soma-=pesos[i]  
+    if(maquina == "O"):
+        teste="X"
+        teste2="O"
+    else:
+        teste="O"
+        teste2="X"
+    if((estado[0]==teste and estado[1]==teste and estado[2]==teste) or (estado[3]==teste and estado[4]==teste and estado[5]==teste) or (estado[6]==teste and estado[7]==teste and estado[8]==teste)  or (estado[0]==teste and estado[3]==teste and estado[6]==teste) or (estado[1]==teste and estado[4]==teste and estado[7]==teste) or (estado[2]==teste and estado[5]==teste and estado[8]==teste)  or (estado[0]==teste and estado[4]==teste and estado[8]==teste) or (estado[2]==teste and estado[4]==teste and estado[6]==teste)):
+        return -math.inf      
+    elif( (estado[0]==teste2 and estado[1]==teste2 and estado[2]==teste2) or (estado[3]==teste2 and estado[4]==teste2 and estado[5]==teste2) or (estado[6]==teste2 and estado[7]==teste2 and estado[8]==teste2) or (estado[0]==teste2 and estado[3]==teste2 and estado[6]==teste2) or (estado[1]==teste2 and estado[4]==teste2 and estado[7]==teste2) or (estado[2]==teste2 and estado[5]==teste2 and estado[8]==teste2) or (estado[0]==teste2 and estado[4]==teste2 and estado[8]==teste2) or (estado[2]==teste2 and estado[4]==teste2 and estado[6]==teste2) ):
+        return math.inf
+    peso=[]
     
+    for i in range(len(estado)):
+        if(estado[i] == teste2):
+            soma+=pesos[i]
+            peso.append(pesos[i])
+        elif(estado[i] == teste):
+            soma-=pesos[i]
+            peso.append(-pesos[i])
+        else:
+            peso.append(0)     
+
     return soma
 
 def proximas_Jogadas(estado, atual):
     estados=[]
 
-    if(atual == "X"):
+    if(atual == "O"):
         for i in range(len(estado)):
             novo_estado=estado.copy()
             if(estado[i] == "" ):
@@ -45,39 +62,38 @@ def proximas_Jogadas(estado, atual):
             if(estado[i] == "" ):
                 novo_estado[i]="X"
                 estados.append(novo_estado)
+
     return estados            
 
 def min_value(estado, atual):
     v = math.inf
-    y=[estado, v]
-    for i in proximas_Jogadas(estado, atual):
-        valor=max_value(i, atual)
-        z=[i, valor]
-        print(z)
-        if(y[1] > z[1]):
-            y=z
 
-    print(y)
-    return y[0]
-
-def max_value(estado, atual): 
     if(atual == "X"):
         atual = "O"
     else:
         atual = "X"
-    v = -math.inf
-    for i in proximas_Jogadas(jogo, atual):
-        #v = max(v, valor_jogada(estado))
-        valor=min_value(i, atual)
-        z=[i, valor]
-        print(z)
-        if(y[1] < z[1]):
-            y=z
+
+    for i in proximas_Jogadas(estado, atual):
+        v = min(v, valor_jogada(i))
 
     return v
 
+def max_value(estado, atual): 
+    v = -math.inf
+    y=[estado, v]
+    for i in proximas_Jogadas(jogo, atual):
+        valor=min_value(i, atual)
+        z=[i, valor]
+        if(y[1] < z[1]):
+            y=z
+
+    return y[0]
+
 #    retorn valor_jogada(estado)
 
+
 jogada = "X"
-maquina = "O"
-print(min_value(jogo, jogada))
+maquina = "X"
+
+#print(valor_jogada(jogo))
+print(max_value(jogo, jogada))
