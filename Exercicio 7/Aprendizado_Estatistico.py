@@ -34,7 +34,7 @@ def last_square(X_train, X_test, y_train, y_test):
 
 
 ############### PCA Utilizando dois componentes principais ######################
-def pca(X, y,features):
+def pca(X, y,features, label_names):
     print("PCA")
     plt.figure()
 
@@ -52,7 +52,7 @@ def pca(X, y,features):
     n = coeficiente.shape[0]
 
     # Plot do gráfico resultante do PCA
-    for color, i, target_name in zip(['navy', 'turquoise', 'darkorange'], [0, 1, 2], features):
+    for color, i, target_name in zip(['navy', 'turquoise', 'darkorange'], [0, 1, 2], label_names):
         plt.scatter(X_r[y == i, 0], X_r[y == i, 1],  alpha=.8, color=color, lw=2,
                 label=target_name,edgecolors='black')
     
@@ -69,7 +69,7 @@ def pca(X, y,features):
 
 
 ############### LDA Utilizando dois componentes principais ######################
-def lda(X, y, target_names):
+def lda(X, y, target_names, label_names):
     print("LDA")
     lda = LinearDiscriminantAnalysis(n_components=2)
     X_r2 = lda.fit(X, y)
@@ -92,14 +92,14 @@ def lda(X, y, target_names):
     plt.contourf(xp_lda, yp_lda, pred_lda, alpha = 0.3, cmap=cmap)
     
     # Plot do gráfico resultante do LDA
-    for color, i, target_name in zip(colors, [0, 1, 2], target_names):
+    for color, i, target_name in zip(colors, [0, 1, 2], label_names):
         plt.scatter(X[y == i, 0], X[y == i, 1], alpha=.8, color=color,
                     label=target_name, edgecolors='black')
     plt.legend(loc='best', shadow=False, scatterpoints=1)
     plt.title('LDA of IRIS dataset')
     
 ############### SVM Utilizando dois componentes principais ######################   
-def svm_classifier(X, y, target_names):
+def svm_classifier(X, y, target_names, label_names):
     print("SVM")
     plt.figure()
 
@@ -122,10 +122,9 @@ def svm_classifier(X, y, target_names):
     plt.contourf(xp_svm, yp_svm, pred_svm, alpha = 0.3, cmap=cmap)
 
 
-    for color, i, target_name in zip(colors, [0, 1, 2], target_names):
+    for color, i, target_name in zip(colors, [0, 1, 2], label_names):
         plt.scatter(X[y == i, 0], X[y == i, 1],  color=color, label=target_name, edgecolors='black')
-    
-    print(target_names)
+
     plt.xlabel(target_names[2])
     plt.ylabel(target_names[3])
 
@@ -139,7 +138,7 @@ def main():
     
     data=iris.data
     features = iris.feature_names
-
+    print(iris.target_names)
     iris_df = pd.DataFrame(data, columns = features)
     iris_df['class'] = iris['target']
 
@@ -154,9 +153,9 @@ def main():
 
 
     last_square(X_train, X_test, y_train, y_test)
-    pca(X_train, y_train, features)
-    lda(iris_df.iloc[:,2:4].values, iris_df['class'].values, features)
-    svm_classifier(iris_df.iloc[:,2:4].values, iris_df['class'].values, features)
+    pca(X_train, y_train, features,iris.target_names)
+    lda(iris_df.iloc[:,2:4].values, iris_df['class'].values, features,iris.target_names)
+    svm_classifier(iris_df.iloc[:,2:4].values, iris_df['class'].values, features,iris.target_names)
     
     plt.show()
 
