@@ -3,7 +3,7 @@ import pandas as pd
 import plot
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
-from sk-learn import linear_model
+from sklearn import linear_model
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
