@@ -17,7 +17,7 @@ def percepetron(X, y, target_names, label_names):
 
     clf = Perceptron(tol=1e-3, random_state=0)
     X_r2 = clf.fit(X_train, y_train)
-    #clf.predict()
+
     print("Precisao do classificador Perceptron: ", clf.score(X_train, y_train))
 
     plt.figure()
@@ -46,7 +46,7 @@ def percepetron(X, y, target_names, label_names):
     plt.title('Classificacao utilizando perceptron no dataset IRIS')
 
 def mlp(X, y, target_names, label_names):
-        #Divisão do dataset entre dados para Treinamento e para Teste
+    #Divisão do dataset entre dados para Treinamento e para Teste
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.12, random_state=True)
     
     test = train_test_split(X, y, test_size=0.40, random_state=True)
@@ -92,15 +92,15 @@ def main():
     iris_df['class'] = iris['target']
     #print(iris['target'][:100] )
     # Definição das dimensões e dos respecticos resutantes
-    X_2 = iris_df.iloc[:100,0:2].values
+    X_2 = iris_df.iloc[:100,1:3].values
     y_2 = iris_df['class'].values[:100]
-    X_3 = iris_df.iloc[:,0:2].values
+    X_3 = iris_df.iloc[:,1:3].values
     y_3 = iris_df['class'].values
     print(y_2)
     
     percepetron(X_2, y_2, features,iris.target_names[:2])
     percepetron(X_3, y_3, features[:3],iris.target_names)
-    mlp(iris_df.iloc[:,0:2].values, y_3, features[:4],iris.target_names)
+    mlp(X_3, y_3, features[:4],iris.target_names)
 
     plt.show()
     
