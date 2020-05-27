@@ -8,7 +8,7 @@ gamma    = 0.9     # taxa de desconto (gamma)
 ep       = 0.2     # taxa de exploração
 
 goal     = (0, 2)  # posição final
-iteractions = 75  # número de iterações do agente
+iteractions = 200  # número de iterações do agente
 
 grid = np.zeros((2,3))
 directions = np.zeros((2,3))
